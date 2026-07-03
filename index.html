@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano Nutricional — Ironman 70.3 Rio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600&family=Bebas+Neue&display=swap');
+
+  :root {
+    --bg: #0e0a06;
+    --surface: #181008;
+    --card: #211508;
+    --border: #3a2510;
+    --accent: #f07020;
+    --accent-bright: #f58f42;
+    --accent-dim: rgba(240,112,32,0.15);
+    --accent-mid: rgba(240,112,32,0.28);
+    --text: #f2ece4;
+    --muted: #8a7560;
+    --orange: #f5893a;
+    --orange-dim: rgba(245,137,58,0.12);
+    --blue: #5ab4f5;
+    --blue-dim: rgba(90,180,245,0.12);
+    --red: #f56b5a;
+    --red-dim: rgba(245,107,90,0.1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    padding: 32px 24px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .race-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 8vw, 64px);
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: var(--text);
+  }
+
+  h1 span { color: var(--accent); }
+
+  .meta {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* WEEK NAV */
+  .day-nav {
+    display: flex;
+    gap: 4px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .day-nav::-webkit-scrollbar { display: none; }
+
+  .day-btn {
+    flex-shrink: 0;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.15s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-width: 72px;
+  }
+
+  .day-btn .day-name { font-size: 11px; font-weight: 600; }
+  .day-btn .day-type { font-size: 9px; font-family: 'DM Mono', monospace; letter-spacing: 0.05em; }
+
+  .day-btn:hover { border-color: var(--accent); color: var(--text); }
+
+  .day-btn.active {
+    background: var(--accent);
+    border-color: var(--accent-bright);
+    color: #1a0800;
+    box-shadow: 0 0 16px rgba(240,112,32,0.4);
+  }
+
+  .day-btn.active .day-name,
+  .day-btn.active .day-type { color: #1a0800; }
+
+  /* CONTENT */
+  .content {
+    padding: 20px 24px 48px;
+    max-width: 800px;
+  }
+
+  /* SPORT PILL */
+  .sport-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+  }
+
+  .sport-cycling { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(90,180,245,0.3); }
+  .sport-running { background: var(--accent-dim); color: var(--accent-bright); border: 1px solid rgba(240,112,32,0.35); }
+  .sport-brick { background: rgba(240,112,32,0.1); color: #f5a060; border: 1px solid rgba(240,112,32,0.3); }
+
+  /* MEAL SECTIONS */
+  .section {
+    margin-bottom: 16px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+
+  .section-header:hover { background: #222832; }
+
+  .section-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .icon-pretreino { background: var(--accent-dim); }
+  .icon-durante { background: var(--blue-dim); }
+  .icon-cafe { background: var(--orange-dim); }
+  .icon-lanche { background: rgba(155,100,245,0.12); }
+  .icon-almoco { background: rgba(90,200,130,0.12); }
+  .icon-lancha-tarde { background: rgba(245,107,90,0.12); }
+  .icon-jantar { background: rgba(245,200,58,0.1); }
+
+  .section-title {
+    font-weight: 600;
+    font-size: 13px;
+    flex: 1;
+  }
+
+  .section-toggle {
+    font-size: 10px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    transition: transform 0.2s;
+  }
+
+  .section-toggle.open { transform: rotate(180deg); }
+
+  .section-body {
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    overflow: hidden;
+  }
+
+  .food-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 14px;
+    border-bottom: 1px solid rgba(42,49,64,0.6);
+    gap: 12px;
+  }
+
+  .food-row:last-child { border-bottom: none; }
+  .food-row:nth-child(even) { background: rgba(255,255,255,0.015); }
+
+  .food-name { color: var(--text); font-size: 13px; }
+  .food-qty {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    text-align: right;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* SUPPLEMENTS */
+  .supp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .supp-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+  }
+
+  .supp-label {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .supp-title {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .supp-options {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .supp-option {
+    font-size: 12px;
+    color: var(--muted);
+    padding: 3px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .supp-option:last-child { border-bottom: none; }
+
+  .supp-note {
+    font-size: 11px;
+    color: var(--accent-bright);
+    font-family: 'DM Mono', monospace;
+    margin-top: 4px;
+  }
+
+  /* SECTION TITLE */
+  .block-label {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin: 24px 0 10px;
+  }
+
+  /* HIDDEN DAY */
+  .day-panel { display: none; }
+  .day-panel.active { display: block; }
+
+  /* COLLAPSED SECTION */
+  .section-body.collapsed { display: none; }
+
+  /* HIGHLIGHT NOTES */
+  .note-box {
+    background: var(--accent-dim);
+    border: 1px solid rgba(240,112,32,0.25);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #f5a060;
+    margin-bottom: 16px;
+    font-family: 'DM Mono', monospace;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 500px) {
+    .supp-grid { grid-template-columns: 1fr; }
+    header { padding: 20px 16px 14px; }
+    .day-nav, .content { padding-left: 16px; padding-right: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="race-tag">▶ Plano Nutricional · Clarissa Vidal · Prescrito 02/06/2026</div>
+  <h1>IRONMAN <span>70.3</span> RIO</h1>
+  <div class="meta">Daniel Nogueira De Morais · Agosto 2026 · Ciclo preparatório</div>
+</header>
+
+<div class="day-nav">
+  <button class="day-btn active" onclick="showDay('seg')">
+    <span class="day-name">SEG</span>
+    <span class="day-type" style="color:#f5893a">🏃 CORRIDA</span>
+  </button>
+  <button class="day-btn" onclick="showDay('ter')">
+    <span class="day-name">TER</span>
+    <span class="day-type" style="color:#5ab4f5">🚴 BIKE</span>
+  </button>
+  <button class="day-btn" onclick="showDay('qua')">
+    <span class="day-name">QUA</span>
+    <span class="day-type" style="color:#f5893a">🏃 CORRIDA</span>
+  </button>
+  <button class="day-btn" onclick="showDay('qui')">
+    <span class="day-name">QUI</span>
+    <span class="day-type" style="color:#5ab4f5">🚴 BIKE</span>
+  </button>
+  <button class="day-btn" onclick="showDay('sex')">
+    <span class="day-name">SEX</span>
+    <span class="day-type" style="color:#f5893a">🏃 CORRIDA</span>
+  </button>
+  <button class="day-btn" onclick="showDay('sab')">
+    <span class="day-name">SÁB</span>
+    <span class="day-type" style="color:#f5893a">🏃 LONGO</span>
+  </button>
+  <button class="day-btn" onclick="showDay('dom')">
+    <span class="day-name">DOM</span>
+    <span class="day-type" style="color:#c8f23a">🧱 BRICK</span>
+  </button>
+  <button class="day-btn" onclick="showDay('supp')">
+    <span class="day-name">💊</span>
+    <span class="day-type">SUPL.</span>
+  </button>
+</div>
+
+<div class="content">
+
+  <!-- SEGUNDA -->
+  <div class="day-panel active" id="day-seg">
+    <div class="sport-badge sport-running">🏃 CORRIDA — 2 géis · 400ml água</div>
+    <div class="note-box">Mesma estrutura da Quarta. Café da manhã com 2 pães franceses (maior reposição pós-treino de corrida).</div>
+
+    <div id="meals-seg"></div>
+  </div>
+
+  <!-- TERÇA -->
+  <div class="day-panel" id="day-ter">
+    <div class="sport-badge sport-cycling">🚴 CICLISMO — Maltodextrina 80g · 1600ml · 2 sachês Jungle</div>
+    <div class="note-box">Mesma estrutura da Quinta. Café da manhã com apenas 1 pão francês (menor carga pós-bike em comparação à corrida).</div>
+    <div id="meals-ter"></div>
+  </div>
+
+  <!-- QUARTA -->
+  <div class="day-panel" id="day-qua">
+    <div class="sport-badge sport-running">🏃 CORRIDA — 2 géis · 400ml água</div>
+    <div class="note-box">Idêntica à Segunda. Arroz no almoço: 4 colheres (180g) — reposição de glicogênio para treinos consecutivos.</div>
+    <div id="meals-qua"></div>
+  </div>
+
+  <!-- QUINTA -->
+  <div class="day-panel" id="day-qui">
+    <div class="sport-badge sport-cycling">🚴 CICLISMO — Maltodextrina 80g · 1600ml · 2 sachês Jungle</div>
+    <div class="note-box">Idêntica à Terça. Arroz no almoço: 3 colheres (135g). Jantar com 3 fatias de pão integral (75g).</div>
+    <div id="meals-qui"></div>
+  </div>
+
+  <!-- SEXTA -->
+  <div class="day-panel" id="day-sex">
+    <div class="sport-badge sport-running">🏃 CORRIDA CURTA — 2 géis · 400ml água</div>
+    <div class="note-box">Pré-treino reduzido: 1 banana + 1 colher de mel. Jantar com apenas 2 fatias de pão integral (50g) — menor carga calórica no final de semana de treino mais leve.</div>
+    <div id="meals-sex"></div>
+  </div>
+
+  <!-- SÁBADO -->
+  <div class="day-panel" id="day-sab">
+    <div class="sport-badge sport-running">🏃 CORRIDA LONGA — 4 géis · 800ml água</div>
+    <div class="note-box">Maior ingestão de géis da semana (4 sachês). Arroz no almoço: 4 colheres (180g). Jantar com 2 fatias de pão integral.</div>
+    <div id="meals-sab"></div>
+  </div>
+
+  <!-- DOMINGO -->
+  <div class="day-panel" id="day-dom">
+    <div class="sport-badge sport-brick">🧱 BRICK — Bike longa + corrida curta</div>
+    <div class="note-box">Treino mais exigente da semana. Bike: Maltodextrina 160g + 3200ml + 4 sachês Jungle. Corrida: 1 gel + 200ml. Pré-treino igual aos demais dias pesados.</div>
+    <div id="meals-dom"></div>
+  </div>
+
+  <!-- SUPLEMENTOS -->
+  <div class="day-panel" id="day-supp">
+    <div class="note-box">Todos os suplementos são tomados independentemente do dia de treino. Escolher UMA opção de cada categoria.</div>
+
+    <div class="block-label">Suplementos prescritos</div>
+    <div class="supp-grid">
+
+      <div class="supp-card">
+        <div class="supp-label">Imunidade · 1 mês</div>
+        <div class="supp-title">Suporte imunológico</div>
+        <div class="supp-options">
+          <div class="supp-option">ImunoMult (Vitafor) — 2 cápsulas/dia</div>
+          <div class="supp-option">Immune Up (Nutrify) — 1 sachê/dia</div>
+        </div>
+        <div class="supp-note">Sem horário específico indicado</div>
+      </div>
+
+      <div class="supp-card">
+        <div class="supp-label">Antioxidante · 1 mês</div>
+        <div class="supp-title">NAC (N-acetil cisteína)</div>
+        <div class="supp-options">
+          <div class="supp-option">NAC Vitafor — 1 cápsula</div>
+          <div class="supp-option">NAC PuraVida — 1 cápsula</div>
+          <div class="supp-option">True NAC (True Source) — 1 cápsula</div>
+        </div>
+        <div class="supp-note">Antes de dormir</div>
+      </div>
+
+      <div class="supp-card" style="grid-column: 1 / -1;">
+        <div class="supp-label">Microbiota · 3 meses</div>
+        <div class="supp-title">Probiótico</div>
+        <div class="supp-options">
+          <div class="supp-option">Simfort Plus (Vitafor) — 2 cápsulas/dia</div>
+          <div class="supp-option">PB8 — 2 cápsulas/dia</div>
+          <div class="supp-option">Bio Nutricci 10BIGG (Inzyme) — 1 comprimido/dia</div>
+          <div class="supp-option">Probigut (Equaliv) — 1 sachê/dia</div>
+        </div>
+        <div class="supp-note">Ao acordar ou antes de dormir · Manutenção pós-3 meses: iogurte natural, kombucha ou kefir diariamente</div>
+      </div>
+
+    </div>
+
+    <div class="block-label" style="margin-top:28px;">Suplementação intra-treino — resumo semanal</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+      <div class="food-row" style="background:rgba(90,180,245,0.06);">
+        <span class="food-name">🚴 Terça + Quinta (bike moderada)</span>
+        <span class="food-qty">Malto 80g · 1600ml · 2 sachês Jungle</span>
+      </div>
+      <div class="food-row" style="background:rgba(240,112,32,0.07);">
+        <span class="food-name">🏃 Segunda + Quarta (corrida)</span>
+        <span class="food-qty">2 géis (60g) · 400ml</span>
+      </div>
+      <div class="food-row" style="background:rgba(240,112,32,0.05);">
+        <span class="food-name">🏃 Sexta (corrida curta)</span>
+        <span class="food-qty">2 géis (60g) · 400ml</span>
+      </div>
+      <div class="food-row" style="background:rgba(240,112,32,0.10);">
+        <span class="food-name">🏃 Sábado (corrida longa)</span>
+        <span class="food-qty">4 géis (120g) · 800ml</span>
+      </div>
+      <div class="food-row" style="background:rgba(240,112,32,0.16);">
+        <span class="food-name">🧱 Domingo – bike (brick longo)</span>
+        <span class="food-qty">Malto 160g · 3200ml · 4 sachês Jungle</span>
+      </div>
+      <div class="food-row" style="background:rgba(240,112,32,0.09);">
+        <span class="food-name">🧱 Domingo – corrida (brick)</span>
+        <span class="food-qty">1 gel (30g) · 200ml</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /content -->
+
+<script>
+// ────────────────────────────────────────────────────────────────────────
+// DATA
+// ────────────────────────────────────────────────────────────────────────
+const PRE_PADRAO_GRANDE = [
+  { name: 'Banana', qty: '2 unid. grandes (200g)' },
+  { name: 'Mel de abelha', qty: '2 col. sopa rasas (30g)' }
+];
+const PRE_SEXTA = [
+  { name: 'Banana', qty: '1 unid. grande (100g)' },
+  { name: 'Mel de abelha', qty: '1 col. sopa rasa (15g)' }
+];
+const DURANTE_CORRIDA_2 = [
+  { name: 'Gel de carboidrato', qty: '2 sachês (60g)' },
+  { name: 'Água (200ml/gel)', qty: '400ml' }
+];
+const DURANTE_CORRIDA_4 = [
+  { name: 'Gel de carboidrato', qty: '4 sachês (120g)' },
+  { name: 'Água (200ml/gel)', qty: '800ml' }
+];
+const DURANTE_BIKE_MOD = [
+  { name: 'Maltodextrina', qty: '8 col. sopa (80g)' },
+  { name: 'Água', qty: '1600ml' },
+  { name: 'Jungle Electrolytes', qty: '2 sachês (10g)' }
+];
+const DURANTE_BIKE_LONGO = [
+  { name: 'Maltodextrina', qty: '16 col. sopa (160g)' },
+  { name: 'Água', qty: '3200ml' },
+  { name: 'Jungle Electrolytes', qty: '4 sachês (20g)' }
+];
+const DURANTE_CORRIDA_DOM = [
+  { name: 'Gel de carboidrato', qty: '1 sachê (30g)' },
+  { name: 'Água', qty: '200ml' }
+];
+
+const CAFE_1PAO = [
+  { name: 'Café', qty: '1 xíc. chá (200ml)' },
+  { name: 'Pão francês', qty: '1 unid. (50g)' },
+  { name: 'Ovo mexido ou cozido', qty: '2 unid. médias (100g)' },
+  { name: 'Queijo coalho light', qty: '2 fatias (40g)' },
+  { name: 'Tangerina', qty: '1 unid. média (135g)' }
+];
+const CAFE_2PAO = [
+  { name: 'Café', qty: '1 xíc. chá (200ml)' },
+  { name: 'Pão francês', qty: '2 unid. (100g)' },
+  { name: 'Ovo mexido ou cozido', qty: '2 unid. médias (100g)' },
+  { name: 'Queijo coalho light', qty: '2 fatias (40g)' },
+  { name: 'Tangerina', qty: '1 unid. média (135g)' }
+];
+
+const LANCHE = [
+  { name: 'Uva', qty: '15 unid. médias (120g)' },
+  { name: 'Castanha de caju c/ sal', qty: '15 unid. (37.5g)' }
+];
+
+const ALMOCO_3 = [
+  { name: 'Salada de folhas/legumes', qty: '½ prato (50g)' },
+  { name: 'Filé de frango grelhado', qty: '1 bife grande (100g)' },
+  { name: 'Arroz branco cozido', qty: '3 col. arroz (135g)' },
+  { name: 'Feijão carioca cozido', qty: '1 concha cheia (140g)' },
+  { name: 'Abacaxi', qty: '2 fatias médias (150g)' }
+];
+const ALMOCO_4 = [
+  { name: 'Salada de folhas/legumes', qty: '½ prato (50g)' },
+  { name: 'Filé de frango grelhado', qty: '1 bife grande (100g)' },
+  { name: 'Arroz branco cozido', qty: '4 col. arroz (180g)' },
+  { name: 'Feijão carioca cozido', qty: '1 concha cheia (140g)' },
+  { name: 'Abacaxi', qty: '2 fatias médias (150g)' }
+];
+
+const LANCHE_TARDE = [
+  { name: 'Whey protein concentrado', qty: '1 dose 15g (ver rótulo)' },
+  { name: 'Leite desnatado', qty: '1 copo (200ml)' },
+  { name: 'Café solúvel', qty: '1 col. chá (1g)' },
+  { name: 'Aveia em flocos', qty: '3 col. sopa (45g)' },
+  { name: 'Banana', qty: '2 unid. grandes (200g)' }
+];
+
+const JANTAR_3PAO = [
+  { name: 'Suco de laranja', qty: '400ml' },
+  { name: 'Pão integral', qty: '3 fatias (75g)' },
+  { name: 'Frango desfiado', qty: '3 col. sopa (60g)' },
+  { name: 'Queijo coalho light', qty: '2 fatias (40g)' },
+  { name: 'Alface', qty: '2 folhas médias (16g)' },
+  { name: 'Tomate', qty: '3 fatias médias (45g)' },
+  { name: 'Azeite de oliva extravirgem', qty: '1 col. sopa (8ml)' },
+  { name: 'Creme de cacau c/ avelã (Flormel)', qty: '1 col. sopa (20g)' },
+  { name: 'Morango', qty: '10 unid. médias (120g)' }
+];
+const JANTAR_2PAO = [
+  { name: 'Suco de laranja', qty: '400ml' },
+  { name: 'Pão integral', qty: '2 fatias (50g)' },
+  { name: 'Frango desfiado', qty: '3 col. sopa (60g)' },
+  { name: 'Queijo coalho light', qty: '2 fatias (40g)' },
+  { name: 'Alface', qty: '2 folhas médias (16g)' },
+  { name: 'Tomate', qty: '3 fatias médias (45g)' },
+  { name: 'Azeite de oliva extravirgem', qty: '1 col. sopa (8ml)' },
+  { name: 'Creme de cacau c/ avelã (Flormel)', qty: '1 col. sopa (20g)' },
+  { name: 'Morango', qty: '10 unid. médias (120g)' }
+];
+
+// Day definitions
+const DAYS = {
+  seg: {
+    sections: [
+      { id:'pre', icon:'⚡', iconClass:'icon-pretreino', title:'Pré-treino', items: PRE_PADRAO_GRANDE },
+      { id:'dur', icon:'🏃', iconClass:'icon-durante', title:'Durante a corrida', items: DURANTE_CORRIDA_2 },
+      { id:'cafe', icon:'☕', iconClass:'icon-cafe', title:'Café da manhã', items: CAFE_2PAO },
+      { id:'lan', icon:'🍇', iconClass:'icon-lanche', title:'Lanche', items: LANCHE },
+      { id:'alm', icon:'🍽️', iconClass:'icon-almoco', title:'Almoço', items: ALMOCO_4 },
+      { id:'lt', icon:'🥤', iconClass:'icon-lancha-tarde', title:'Lanche da tarde', items: LANCHE_TARDE },
+      { id:'jan', icon:'🌙', iconClass:'icon-jantar', title:'Jantar', items: JANTAR_3PAO }
+    ]
+  },
+  ter: {
+    sections: [
+      { id:'pre', icon:'⚡', iconClass:'icon-pretreino', title:'Pré-treino', items: PRE_PADRAO_GRANDE },
+      { id:'dur', icon:'🚴', iconClass:'icon-durante', title:'Durante o ciclismo', items: DURANTE_BIKE_MOD },
+      { id:'cafe', icon:'☕', iconClass:'icon-cafe', title:'Café da manhã', items: CAFE_1PAO },
+      { id:'lan', icon:'🍇', iconClass:'icon-lanche', title:'Lanche', items: LANCHE },
+      { id:'alm', icon:'🍽️', iconClass:'icon-almoco', title:'Almoço', items: ALMOCO_3 },
+      { id:'lt', icon:'🥤', iconClass:'icon-lancha-tarde', title:'Lanche da tarde', items: LANCHE_TARDE },
+      { id:'jan', icon:'🌙', iconClass:'icon-jantar', title:'Jantar', items: JANTAR_3PAO }
+    ]
+  },
+  qua: {
+    sections: [
+      { id:'pre', icon:'⚡', iconClass:'icon-pretreino', title:'Pré-treino', items: PRE_PADRAO_GRANDE },
+      { id:'dur', icon:'🏃', iconClass:'icon-durante', title:'Durante a corrida', items: DURANTE_CORRIDA_2 },
+      { id:'cafe', icon:'☕', iconClass:'icon-cafe', title:'Café da manhã', items: CAFE_2PAO },
+      { id:'lan', icon:'🍇', iconClass:'icon-lanche', title:'Lanche', items: LANCHE },
+      { id:'alm', icon:'🍽️', iconClass:'icon-almoco', title:'Almoço', items: ALMOCO_4 },
+      { id:'lt', icon:'🥤', iconClass:'icon-lancha-tarde', title:'Lanche da tarde', items: LANCHE_TARDE },
+      { id:'jan', icon:'🌙', iconClass:'icon-jantar', title:'Jantar', items: JANTAR_3PAO }
+    ]
+  },
+  qui: {
+    sections: [
+      { id:'pre', icon:'⚡', iconClass:'icon-pretreino', title:'Pré-treino', items: PRE_PADRAO_GRANDE },
+      { id:'dur', icon:'🚴', iconClass:'icon-durante', title:'Durante o ciclismo', items: DURANTE_BIKE_MOD },
+      { id:'cafe', icon:'☕', iconClass:'icon-cafe', title:'Café da manhã', items: CAFE_1PAO },
+      { id:'lan', icon:'🍇', iconClass:'icon-lanche', title:'Lanche', items: LANCHE },
+      { id:'alm', icon:'🍽️', iconClass:'icon-almoco', title:'Almoço', items: ALMOCO_3 },
+      { id:'lt', icon:'🥤', iconClass:'icon-lancha-tarde', title:'Lanche da tarde', items: LANCHE_TARDE },
+      { id:'jan', icon:'🌙', iconClass:'icon-jantar', title:'Jantar', items: JANTAR_3PAO }
+    ]
+  },
+  sex: {
+    sections: [
+      { id:'pre', icon:'⚡', iconClass:'icon-pretreino', title:'Pré-treino', items: PRE_SEXTA },
+      { id:'dur', icon:'🏃', iconClass:'icon-durante', title:'Durante a corrida', items: DURANTE_CORRIDA_2 },
+      { id:'cafe', icon:'☕', iconClass:'icon-cafe', title:'Café da manhã', items: CAFE_2PAO },
+      { id:'lan', icon:'🍇', iconClass:'icon-lanche', title:'Lanche', items: LANCHE },
+      { id:'alm', icon:'🍽️', iconClass:'icon-almoco', title:'Almoço', items: ALMOCO_3 },
+      { id:'lt', icon:'🥤', iconClass:'icon-lancha-tarde', title:'Lanche da tarde', items: LANCHE_TARDE },
+      { id:'jan', icon:'🌙', iconClass:'icon-jantar', title:'Jantar', items: JANTAR_2PAO }
+    ]
+  },
+  sab: {
+    sections: [
+      { id:'pre', icon:'⚡', iconClass:'icon-pretreino', title:'Pré-treino', items: PRE_PADRAO_GRANDE },
+      { id:'dur', icon:'🏃', iconClass:'icon-durante', title:'Durante a corrida', items: DURANTE_CORRIDA_4 },
+      { id:'cafe', icon:'☕', iconClass:'icon-cafe', title:'Café da manhã', items: CAFE_2PAO },
+      { id:'lan', icon:'🍇', iconClass:'icon-lanche', title:'Lanche', items: LANCHE },
+      { id:'alm', icon:'🍽️', iconClass:'icon-almoco', title:'Almoço', items: ALMOCO_4 },
+      { id:'lt', icon:'🥤', iconClass:'icon-lancha-tarde', title:'Lanche da tarde', items: LANCHE_TARDE },
+      { id:'jan', icon:'🌙', iconClass:'icon-jantar', title:'Jantar', items: JANTAR_2PAO }
+    ]
+  },
+  dom: {
+    sections: [
+      { id:'pre', icon:'⚡', iconClass:'icon-pretreino', title:'Pré-treino', items: PRE_PADRAO_GRANDE },
+      { id:'bike', icon:'🚴', iconClass:'icon-durante', title:'Durante o ciclismo (bike longa)', items: DURANTE_BIKE_LONGO },
+      { id:'corr', icon:'🏃', iconClass:'icon-durante', title:'Durante a corrida (brick)', items: DURANTE_CORRIDA_DOM },
+      { id:'cafe', icon:'☕', iconClass:'icon-cafe', title:'Café da manhã', items: CAFE_1PAO },
+      { id:'lan', icon:'🍇', iconClass:'icon-lanche', title:'Lanche', items: LANCHE },
+      { id:'alm', icon:'🍽️', iconClass:'icon-almoco', title:'Almoço', items: ALMOCO_3 },
+      { id:'lt', icon:'🥤', iconClass:'icon-lancha-tarde', title:'Lanche da tarde', items: LANCHE_TARDE },
+      { id:'jan', icon:'🌙', iconClass:'icon-jantar', title:'Jantar', items: JANTAR_3PAO }
+    ]
+  }
+};
+
+// ────────────────────────────────────────────────────────────────────────
+// RENDER
+// ────────────────────────────────────────────────────────────────────────
+function buildRows(items) {
+  return items.map(i =>
+    `<div class="food-row"><span class="food-name">${i.name}</span><span class="food-qty">${i.qty}</span></div>`
+  ).join('');
+}
+
+function buildSection(s, dayId) {
+  const bodyId = `body-${dayId}-${s.id}`;
+  return `
+    <div class="section">
+      <div class="section-header" onclick="toggleSection('${bodyId}', this)">
+        <div class="section-icon ${s.iconClass}">${s.icon}</div>
+        <span class="section-title">${s.title}</span>
+        <span class="section-toggle open">▾</span>
+      </div>
+      <div class="section-body" id="${bodyId}">
+        ${buildRows(s.items)}
+      </div>
+    </div>`;
+}
+
+Object.keys(DAYS).forEach(dayId => {
+  const container = document.getElementById(`meals-${dayId}`);
+  if (!container) return;
+  container.innerHTML = DAYS[dayId].sections.map(s => buildSection(s, dayId)).join('');
+});
+
+// ────────────────────────────────────────────────────────────────────────
+// INTERACTION
+// ────────────────────────────────────────────────────────────────────────
+function showDay(id) {
+  document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('day-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+function toggleSection(bodyId, header) {
+  const body = document.getElementById(bodyId);
+  const toggle = header.querySelector('.section-toggle');
+  body.classList.toggle('collapsed');
+  toggle.classList.toggle('open');
+}
+</script>
+</body>
+</html>
