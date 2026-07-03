@@ -41,7 +41,11 @@
 
   /* HEADER */
   header {
-    padding: 32px 24px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    padding: 14px 24px 10px;
     border-bottom: 1px solid var(--border);
     display: flex;
     flex-direction: column;
@@ -74,6 +78,10 @@
 
   /* WEEK NAV */
   .day-nav {
+    position: sticky;
+    top: 62px;
+    z-index: 99;
+    background: var(--bg);
     display: flex;
     gap: 4px;
     padding: 16px 24px;
@@ -317,9 +325,7 @@
 <body>
 
 <header>
-  <div class="race-tag">▶ Plano Nutricional · Clarissa Vidal · Prescrito 02/06/2026</div>
   <h1>IRONMAN <span>70.3</span> RIO</h1>
-  <div class="meta">Daniel Nogueira De Morais · Agosto 2026 · Ciclo preparatório</div>
 </header>
 
 <div class="day-nav">
