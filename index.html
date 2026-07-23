@@ -315,10 +315,109 @@
     line-height: 1.5;
   }
 
+  /* CHOSEN / CONCLUDED SUPPLEMENTS */
+  .supp-option.chosen { color: var(--accent-bright); font-weight: 600; }
+  .supp-option.chosen::before { content: '✓ '; }
+  .supp-card.done { opacity: 0.55; }
+  .badge-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    padding: 1px 6px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .badge-done { color: var(--muted); border: 1px solid var(--border); }
+  .badge-new { color: #c8f23a; border: 1px solid rgba(200,242,58,0.4); }
+
+  /* TRACKER */
+  .tracker-head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; margin-bottom: 14px;
+  }
+  .week-switch { display: flex; gap: 6px; flex-shrink: 0; }
+  .week-switch button {
+    background: var(--card); border: 1px solid var(--border); color: var(--muted);
+    border-radius: 6px; width: 32px; height: 32px; font-size: 16px; cursor: pointer;
+    line-height: 1;
+  }
+  .week-switch button:active { background: var(--accent-dim); }
+  .tracker-label { text-align: right; flex: 1; }
+  .tracker-week { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text); }
+  .tracker-adh { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent-bright); margin-top: 2px; }
+
+  .grid-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  table.tgrid { width: 100%; border-collapse: collapse; }
+  table.tgrid th, table.tgrid td { text-align: center; padding: 0; }
+  table.tgrid thead th {
+    font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted);
+    font-weight: 500; padding: 9px 0 7px;
+  }
+  table.tgrid thead th.today { color: #fff; }
+  table.tgrid .rlabel {
+    text-align: left; padding: 7px 4px 7px 12px; font-size: 12px; color: var(--text); white-space: nowrap;
+  }
+  table.tgrid .rlabel small {
+    display: block; font-size: 9px; color: var(--muted); font-family: 'DM Mono', monospace;
+  }
+  table.tgrid tbody tr { border-top: 1px solid rgba(58,37,16,0.6); }
+  td.today-col { background: rgba(240,112,32,0.08); }
+  .chk {
+    width: 25px; height: 25px; border-radius: 50%; border: 1.5px solid var(--border);
+    margin: 6px auto; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: transparent; font-size: 13px; transition: all 0.12s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .chk.on { background: var(--accent); border-color: var(--accent-bright); color: #fff; box-shadow: 0 0 10px rgba(240,112,32,0.35); }
+
+  .tracker-tools { display: flex; gap: 8px; margin-top: 16px; }
+  .tracker-tools button {
+    flex: 1; background: var(--card); border: 1px solid var(--border); color: var(--muted);
+    border-radius: 8px; padding: 9px; font-size: 11px; font-family: 'DM Mono', monospace; cursor: pointer;
+  }
+  .tracker-tools button:active { background: var(--accent-dim); }
+  .tracker-hint { font-size: 10px; color: var(--muted); margin-top: 10px; line-height: 1.6; }
+
+  .hist-item {
+    background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+    margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;
+    padding: 11px 14px; cursor: pointer;
+  }
+  .hist-item:active { background: var(--surface); }
+  .hist-week { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text); }
+  .hist-right { display: flex; align-items: center; gap: 10px; }
+  .hist-bar { width: 60px; height: 6px; border-radius: 3px; background: var(--border); overflow: hidden; }
+  .hist-bar span { display: block; height: 100%; background: var(--accent); }
+  .hist-pct { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent-bright); min-width: 34px; text-align: right; }
+
+  /* CHECKLIST DIÁRIO (nas abas de dia) */
+  .dsupp-list { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .dsupp-row {
+    display: flex; align-items: center; gap: 12px; padding: 11px 14px;
+    border-bottom: 1px solid rgba(58,37,16,0.6); cursor: pointer;
+    -webkit-tap-highlight-color: transparent; transition: background 0.12s;
+  }
+  .dsupp-row:last-child { border-bottom: none; }
+  .dsupp-row:active { background: var(--surface); }
+  .dsupp-check {
+    width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center; color: transparent;
+    font-size: 14px; flex-shrink: 0; transition: all 0.12s;
+  }
+  .dsupp-check.on { background: var(--accent); border-color: var(--accent-bright); color: #fff; box-shadow: 0 0 10px rgba(240,112,32,0.35); }
+  .dsupp-name { font-size: 13px; color: var(--text); }
+  .dsupp-name small { display: block; font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; }
+  .dsupp-row.done .dsupp-name { color: var(--muted); }
+
   @media (max-width: 500px) {
     .supp-grid { grid-template-columns: 1fr; }
     header { padding: 20px 16px 14px; }
     .day-nav, .content { padding-left: 16px; padding-right: 16px; }
+    table.tgrid .rlabel { font-size: 11px; padding-left: 8px; }
+    .chk { width: 23px; height: 23px; }
   }
 </style>
 </head>
@@ -356,6 +455,10 @@
   <button class="day-btn" onclick="showDay('dom')">
     <span class="day-name">DOM</span>
     <span class="day-type" style="color:#c8f23a">🧱 BRICK</span>
+  </button>
+  <button class="day-btn" onclick="showDay('track')">
+    <span class="day-name">✅</span>
+    <span class="day-type">CHECK</span>
   </button>
   <button class="day-btn" onclick="showDay('supp')">
     <span class="day-name">💊</span>
@@ -419,42 +522,66 @@
   <div class="day-panel" id="day-supp">
     <div class="note-box">Todos os suplementos são tomados independentemente do dia de treino. Escolher UMA opção de cada categoria.</div>
 
-    <div class="block-label">Suplementos prescritos</div>
+    <div class="block-label">Uso diário — em uso</div>
     <div class="supp-grid">
 
       <div class="supp-card">
-        <div class="supp-label">Imunidade · 1 mês</div>
+        <div class="supp-label">Imunidade</div>
         <div class="supp-title">Suporte imunológico</div>
         <div class="supp-options">
-          <div class="supp-option">ImunoMult (Vitafor) — 2 cápsulas/dia</div>
-          <div class="supp-option">Immune Up (Nutrify) — 1 sachê/dia</div>
+          <div class="supp-option chosen">ImunoMult (Vitafor) — 2 cápsulas/dia</div>
         </div>
         <div class="supp-note">Sem horário específico indicado</div>
       </div>
 
       <div class="supp-card">
-        <div class="supp-label">Antioxidante · 1 mês</div>
-        <div class="supp-title">NAC (N-acetil cisteína)</div>
-        <div class="supp-options">
-          <div class="supp-option">NAC Vitafor — 1 cápsula</div>
-          <div class="supp-option">NAC PuraVida — 1 cápsula</div>
-          <div class="supp-option">True NAC (True Source) — 1 cápsula</div>
-        </div>
-        <div class="supp-note">Antes de dormir</div>
-      </div>
-
-      <div class="supp-card" style="grid-column: 1 / -1;">
         <div class="supp-label">Microbiota · 3 meses</div>
         <div class="supp-title">Probiótico</div>
         <div class="supp-options">
-          <div class="supp-option">Simfort Plus (Vitafor) — 2 cápsulas/dia</div>
-          <div class="supp-option">PB8 — 2 cápsulas/dia</div>
-          <div class="supp-option">Bio Nutricci 10BIGG (Inzyme) — 1 comprimido/dia</div>
-          <div class="supp-option">Probigut (Equaliv) — 1 sachê/dia</div>
+          <div class="supp-option chosen">Simfort Plus (Vitafor) — 2 cápsulas/dia</div>
         </div>
         <div class="supp-note">Ao acordar ou antes de dormir · Manutenção pós-3 meses: iogurte natural, kombucha ou kefir diariamente</div>
       </div>
 
+      <div class="supp-card">
+        <div class="supp-label">Fibras <span class="badge-tag badge-new">novo</span></div>
+        <div class="supp-title">Fiber Mais (Nestlé)</div>
+        <div class="supp-options">
+          <div class="supp-option chosen">1 sachê/dia</div>
+        </div>
+        <div class="supp-note">Diluir em 1 copo de água ou suco</div>
+      </div>
+
+      <div class="supp-card">
+        <div class="supp-label">Ômega 3 <span class="badge-tag badge-new">novo</span></div>
+        <div class="supp-title">Omegafor Plus (Vitafor)</div>
+        <div class="supp-options">
+          <div class="supp-option chosen">3 cápsulas/dia</div>
+        </div>
+        <div class="supp-note">Preferencialmente junto às refeições</div>
+      </div>
+
+      <div class="supp-card" style="grid-column: 1 / -1;">
+        <div class="supp-label">Performance · 3 meses <span class="badge-tag badge-new">novo</span></div>
+        <div class="supp-title">Beta alanina</div>
+        <div class="supp-options">
+          <div class="supp-option chosen">1 scoop · 2× ao dia (manhã e noite)</div>
+        </div>
+        <div class="supp-note">Junto com as refeições · ciclo de 3 meses</div>
+      </div>
+
+    </div>
+
+    <div class="block-label" style="margin-top:28px;">Concluído</div>
+    <div class="supp-grid">
+      <div class="supp-card done" style="grid-column: 1 / -1;">
+        <div class="supp-label">Antioxidante <span class="badge-tag badge-done">finalizado</span></div>
+        <div class="supp-title">NAC (N-acetil cisteína)</div>
+        <div class="supp-options">
+          <div class="supp-option">NAC Vitafor — 1 cápsula · antes de dormir</div>
+        </div>
+        <div class="supp-note">Ciclo encerrado — fora do controle diário</div>
+      </div>
     </div>
 
     <div class="block-label" style="margin-top:28px;">Suplementação intra-treino — resumo semanal</div>
@@ -484,6 +611,35 @@
         <span class="food-qty">1 gel (30g) · 200ml</span>
       </div>
     </div>
+  </div>
+
+  <!-- CONTROLE DIÁRIO -->
+  <div class="day-panel" id="day-track">
+    <div class="note-box">Marque cada dose ao tomar. Fica salvo neste aparelho. A semana começa na segunda-feira.</div>
+
+    <div class="tracker-head">
+      <div class="week-switch">
+        <button onclick="shiftWeek(-1)" aria-label="Semana anterior">‹</button>
+        <button onclick="shiftWeek(1)" aria-label="Próxima semana">›</button>
+      </div>
+      <div class="tracker-label">
+        <div class="tracker-week" id="tk-week"></div>
+        <div class="tracker-adh" id="tk-adh"></div>
+      </div>
+    </div>
+
+    <div class="grid-wrap" id="tk-grid"></div>
+
+    <div class="tracker-tools">
+      <button onclick="exportTracker()">⬆ Exportar backup</button>
+      <button onclick="importTracker()">⬇ Importar backup</button>
+    </div>
+    <div class="tracker-hint">
+      💡 Para as marcações durarem: no Safari, toque em Compartilhar › <b>Adicionar à Tela de Início</b> e abra por lá. De vez em quando, use <b>Exportar backup</b> e guarde o código (Notas ou e-mail para você mesmo).
+    </div>
+
+    <div class="block-label" style="margin-top:26px;">Histórico</div>
+    <div id="tk-history"></div>
   </div>
 
 </div><!-- /content -->
@@ -717,6 +873,212 @@ function toggleSection(bodyId, header) {
   body.classList.toggle('collapsed');
   toggle.classList.toggle('open');
 }
+
+// ────────────────────────────────────────────────────────────────────────
+// CONTROLE DIÁRIO DE SUPLEMENTOS
+// ────────────────────────────────────────────────────────────────────────
+const TK_KEY = 'dieta-supp-tracker-v1';
+const DAILY_SUPP = [
+  { id:'imuno',  name:'Imunológico', detail:'ImunoMult · 2 caps' },
+  { id:'probio', name:'Probiótico',  detail:'Simfort · 2 caps' },
+  { id:'fiber',  name:'Fiber Mais',  detail:'1 sachê' },
+  { id:'omega',  name:'Ômega 3',     detail:'3 cápsulas' },
+  { id:'beta1',  name:'Beta alanina',detail:'1 scoop · manhã' },
+  { id:'beta2',  name:'Beta alanina',detail:'1 scoop · noite' }
+];
+const DOW = ['S','T','Q','Q','S','S','D'];
+const MESES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+let viewOffset = 0; // 0 = semana atual
+
+function tkLoad() { try { return JSON.parse(localStorage.getItem(TK_KEY)) || {}; } catch(e) { return {}; } }
+function tkSave(d) { try { localStorage.setItem(TK_KEY, JSON.stringify(d)); } catch(e) {} }
+
+function mondayOf(base) {
+  const d = new Date(base);
+  d.setHours(0,0,0,0);
+  const wd = (d.getDay() + 6) % 7; // 0 = segunda
+  d.setDate(d.getDate() - wd);
+  return d;
+}
+function fmtKey(d) {
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function parseKey(wk) {
+  const [y,m,d] = wk.split('-').map(Number);
+  return new Date(y, m-1, d); // meia-noite local (evita deslocamento de fuso)
+}
+function fmtRange(mon) {
+  const s = new Date(mon), e = new Date(mon);
+  e.setDate(e.getDate() + 6);
+  if (s.getMonth() === e.getMonth())
+    return `${s.getDate()}–${e.getDate()} ${MESES[e.getMonth()]}`;
+  return `${s.getDate()} ${MESES[s.getMonth()]} – ${e.getDate()} ${MESES[e.getMonth()]}`;
+}
+function weekKeyFromOffset(off) {
+  const mon = mondayOf(new Date());
+  mon.setDate(mon.getDate() + off * 7);
+  return fmtKey(mon);
+}
+function ensureWeek(data, wk) {
+  if (!data[wk]) data[wk] = {};
+  DAILY_SUPP.forEach(s => {
+    if (!Array.isArray(data[wk][s.id]) || data[wk][s.id].length !== 7)
+      data[wk][s.id] = [false,false,false,false,false,false,false];
+  });
+  return data[wk];
+}
+function weekCount(week) {
+  let t = 0;
+  DAILY_SUPP.forEach(s => (week[s.id] || []).forEach(v => { if (v) t++; }));
+  return t;
+}
+function weekPct(week) {
+  const total = DAILY_SUPP.length * 7;
+  return total ? Math.round(weekCount(week) / total * 100) : 0;
+}
+
+function renderGrid() {
+  const data = tkLoad();
+  const wk = weekKeyFromOffset(viewOffset);
+  const week = ensureWeek(data, wk);
+  const mon = parseKey(wk);
+  document.getElementById('tk-week').textContent = fmtRange(mon) + (viewOffset === 0 ? ' · esta semana' : '');
+  document.getElementById('tk-adh').textContent = `${weekCount(week)}/${DAILY_SUPP.length*7} doses · ${weekPct(week)}%`;
+
+  const todayIdx = (viewOffset === 0) ? ((new Date().getDay() + 6) % 7) : -1;
+  let html = '<table class="tgrid"><thead><tr><th></th>';
+  for (let i = 0; i < 7; i++) html += `<th class="${i===todayIdx?'today':''}">${DOW[i]}</th>`;
+  html += '</tr></thead><tbody>';
+  DAILY_SUPP.forEach(s => {
+    html += `<tr><td class="rlabel">${s.name}<small>${s.detail}</small></td>`;
+    for (let i = 0; i < 7; i++) {
+      const on = week[s.id][i];
+      html += `<td class="${i===todayIdx?'today-col':''}"><div class="chk ${on?'on':''}" onclick="toggleCell('${wk}','${s.id}',${i})">✓</div></td>`;
+    }
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById('tk-grid').innerHTML = html;
+}
+
+function toggleCell(wk, id, i) {
+  const data = tkLoad();
+  ensureWeek(data, wk);
+  data[wk][id][i] = !data[wk][id][i];
+  tkSave(data);
+  renderGrid();
+  renderHistory();
+  renderAllDaySupp();
+}
+
+function shiftWeek(dir) { viewOffset += dir; renderGrid(); }
+
+function renderHistory() {
+  const data = tkLoad();
+  const cur = weekKeyFromOffset(0);
+  const keys = Object.keys(data).sort().reverse();
+  let html = '';
+  keys.forEach(wk => {
+    const p = weekPct(data[wk]);
+    const mon = parseKey(wk);
+    const label = fmtRange(mon) + (wk === cur ? ' · atual' : '');
+    html += `<div class="hist-item" onclick="jumpWeek('${wk}')">
+      <span class="hist-week">${label}</span>
+      <span class="hist-right">
+        <span class="hist-bar"><span style="width:${p}%"></span></span>
+        <span class="hist-pct">${p}%</span>
+      </span>
+    </div>`;
+  });
+  if (!html) html = '<div class="tracker-hint">Sem registros ainda. Marque as doses acima para começar.</div>';
+  document.getElementById('tk-history').innerHTML = html;
+}
+
+function jumpWeek(wk) {
+  const mon0 = mondayOf(new Date());
+  viewOffset = Math.round((parseKey(wk) - mon0) / (7 * 86400000));
+  renderGrid();
+  document.getElementById('tk-grid').scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
+function exportTracker() {
+  const raw = localStorage.getItem(TK_KEY) || '{}';
+  const code = 'DIETA' + btoa(unescape(encodeURIComponent(raw)));
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(code).then(
+      () => alert('Backup copiado! Cole em Notas ou envie por e-mail para você mesmo.'),
+      () => prompt('Copie seu backup:', code)
+    );
+  } else {
+    prompt('Copie seu backup:', code);
+  }
+}
+function importTracker() {
+  const code = prompt('Cole o backup aqui:');
+  if (!code) return;
+  try {
+    const raw = decodeURIComponent(escape(atob(code.trim().replace(/^DIETA/, ''))));
+    JSON.parse(raw); // valida
+    localStorage.setItem(TK_KEY, raw);
+    viewOffset = 0;
+    renderGrid();
+    renderHistory();
+    alert('Backup restaurado com sucesso!');
+  } catch (e) {
+    alert('Código inválido. Verifique se copiou o backup completo.');
+  }
+}
+
+// ── Checklist diário embutido em cada aba de dia (semana atual) ──
+const DAY_IDS = ['seg','ter','qua','qui','sex','sab','dom'];
+
+// cria um container de checklist ao final de cada painel de dia
+DAY_IDS.forEach(dayId => {
+  const meals = document.getElementById('meals-' + dayId);
+  if (meals && !document.getElementById('dsupp-' + dayId)) {
+    const host = document.createElement('div');
+    host.id = 'dsupp-' + dayId;
+    host.style.marginTop = '24px';
+    meals.parentNode.appendChild(host);
+  }
+});
+
+function renderAllDaySupp() {
+  const data = tkLoad();
+  const wk = weekKeyFromOffset(0);
+  const week = ensureWeek(data, wk);
+  DAY_IDS.forEach((dayId, idx) => {
+    const host = document.getElementById('dsupp-' + dayId);
+    if (!host) return;
+    const done = DAILY_SUPP.filter(s => week[s.id][idx]).length;
+    const rows = DAILY_SUPP.map(s => {
+      const on = week[s.id][idx];
+      return `<div class="dsupp-row ${on?'done':''}" onclick="toggleDaySupp('${s.id}',${idx})">
+        <div class="dsupp-check ${on?'on':''}">✓</div>
+        <div class="dsupp-name">${s.name}<small>${s.detail}</small></div>
+      </div>`;
+    }).join('');
+    host.innerHTML =
+      `<div class="block-label">💊 Suplementos do dia · ${done}/${DAILY_SUPP.length}` +
+      `<span style="text-transform:none;letter-spacing:0;color:var(--muted);"> (esta semana)</span></div>` +
+      `<div class="dsupp-list">${rows}</div>`;
+  });
+}
+
+function toggleDaySupp(id, idx) {
+  const data = tkLoad();
+  const wk = weekKeyFromOffset(0);
+  ensureWeek(data, wk);
+  data[wk][id][idx] = !data[wk][id][idx];
+  tkSave(data);
+  renderAllDaySupp();
+  renderGrid();
+  renderHistory();
+}
+
+renderGrid();
+renderHistory();
+renderAllDaySupp();
 </script>
 </body>
 </html>
